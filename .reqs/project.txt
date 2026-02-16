@@ -1,0 +1,5 @@
+mypy
+pylint
+pre_commit
+commitizen
+ruff
