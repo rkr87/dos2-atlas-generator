@@ -18,10 +18,9 @@ def _load_template(path: Path) -> str:
 
 
 def _render(template: str, template_vals: dict[str, Any]) -> str:
-    rendered = str(template)
     for key, val in template_vals.items():
-        rendered = rendered.replace(f"~~{key}~~", str(val))
-    return rendered
+        template = template.replace(f"~~{key}~~", str(val))
+    return template
 
 
 def _generate_nodes(icon_nodes: list[IconNode]) -> str:
