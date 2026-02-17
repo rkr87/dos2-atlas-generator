@@ -15,7 +15,7 @@ class AtlasDetail:
     name: str
     size: int
     cell: float
-    half: float
+    half_texel: float
     cols: int
     rows: int
     icon_size: int
@@ -75,7 +75,7 @@ class AtlasDetail:
             name=atlas_name,
             size=atlas_size,
             cell=cls._compute_cell(atlas_size),
-            half=cls._compute_half(atlas_size),
+            half_texel=cls._compute_half_texel(atlas_size),
             cols=cols,
             rows=rows,
             icon_size=_ICON_SIZE,
@@ -90,7 +90,6 @@ class AtlasDetail:
         required_pixels = icons_per_row * _ICON_SIZE
 
         atlas_size = AtlasDetail._next_power_of_two(required_pixels)
-
         if atlas_size > _MAX_ATLAS_SIZE:
             msg = "Too many icons for a single atlas"
             raise ValueError(msg)
@@ -114,5 +113,5 @@ class AtlasDetail:
         return _ICON_SIZE / atlas_size
 
     @staticmethod
-    def _compute_half(atlas_size: int) -> float:
+    def _compute_half_texel(atlas_size: int) -> float:
         return 1 / atlas_size / 2

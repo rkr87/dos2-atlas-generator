@@ -30,10 +30,10 @@ class IconNode:
             map_key=map_key,
             x=x,
             y=y,
-            x_start=cls._compute_x_start(x, atlas),
-            x_end=cls._compute_x_end(x, atlas),
-            y_start=cls._compute_y_start(y, atlas),
-            y_end=cls._compute_y_end(y, atlas),
+            x_start=cls._compute_start(x, atlas),
+            x_end=cls._compute_end(x, atlas),
+            y_start=cls._compute_start(y, atlas),
+            y_end=cls._compute_end(y, atlas),
         )
 
     @staticmethod
@@ -41,17 +41,9 @@ class IconNode:
         return index % cols, index // cols
 
     @staticmethod
-    def _compute_x_start(x: int, layout: AtlasDetail) -> float:
-        return x * layout.cell + layout.half
+    def _compute_start(pos: int, atlas: AtlasDetail) -> float:
+        return pos * atlas.cell + atlas.half_texel
 
     @staticmethod
-    def _compute_x_end(x: int, layout: AtlasDetail) -> float:
-        return (x + 1) * layout.cell - layout.half
-
-    @staticmethod
-    def _compute_y_start(y: int, layout: AtlasDetail) -> float:
-        return y * layout.cell + layout.half
-
-    @staticmethod
-    def _compute_y_end(y: int, layout: AtlasDetail) -> float:
-        return (y + 1) * layout.cell - layout.half
+    def _compute_end(pos: int, atlas: AtlasDetail) -> float:
+        return (pos + 1) * atlas.cell - atlas.half_texel
