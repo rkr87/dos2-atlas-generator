@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<save>
+    <header version="2" />
+    <version major="3" minor="6" revision="6" build="0" />
+    <region id="IconUVList">
+        <node id="root">
+            <children>
+~~ICON_NODES~~
+            </children>
+        </node>
+    </region>
+    <region id="TextureAtlasInfo">
+        <node id="root">
+            <children>
+                <node id="TextureAtlasIconSize">
+                    <attribute id="Height" value="~~ICON_SIZE~~" type="4" />
+                    <attribute id="Width" value="~~ICON_SIZE~~" type="4" />
+                </node>
+                <node id="TextureAtlasPath">
+                    <attribute id="Path" value="Assets/Textures/Icons/~~ATLAS_NAME~~.dds" type="20" />
+                    <attribute id="UUID" value="~~RESOURCE_UUID~~" type="22" />
+                </node>
+                <node id="TextureAtlasTextureSize">
+                    <attribute id="Height" value="~~ATLAS_SIZE~~" type="4" />
+                    <attribute id="Width" value="~~ATLAS_SIZE~~" type="4" />
+                </node>
+            </children>
+        </node>
+    </region>
+</save>

@@ -1,0 +1,7 @@
+<node id="IconUV">
+    <attribute id="MapKey" value="~~map_key~~" type="22" />
+    <attribute id="U1" value="~~x_start~~" type="6" />
+    <attribute id="U2" value="~~x_end~~" type="6" />
+    <attribute id="V1" value="~~y_start~~" type="6" />
+    <attribute id="V2" value="~~y_end~~" type="6" />
+</node>
