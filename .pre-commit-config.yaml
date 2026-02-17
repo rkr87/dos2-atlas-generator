@@ -24,7 +24,8 @@ repos:
       language: python
       language_version: python3.12
       additional_dependencies: ["mypy",
-                                "mypy-extensions"]
+                                "mypy-extensions",
+                                "pillow"]
       types: [python]
       args: ["--config-file=pyproject.toml"]
       require_serial: true

@@ -4,7 +4,13 @@
 todo
 TEMPLATE_SETUP.bat
 local_git_clean.bat
+# Ignore everything in .out except .gitkeep
+.out/*
+!.out/.gitkeep
 
+# Ignore everything in .icons except .gitkeep
+.icons/*
+!.icons/.gitkeep
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
