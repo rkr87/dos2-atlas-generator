@@ -4,9 +4,9 @@ import atlas_builder
 import lsx_writer
 
 # provide input directory (location of 64x64 icon.png files)
-INPUT_PATH = Path("./.icons")
+INPUT_PATH = "./.icons"
 # provide output directory
-OUTPUT_PATH = Path("./.out")
+OUTPUT_PATH = "./.out"
 # provide a name for your atlas - this should be unique to your mod
 ATLAS_NAME = "Icons_MyModAtlas"
 # provide your mod's folder name
@@ -20,8 +20,8 @@ RESOURCE_UUID = None
 def main() -> None:
     """Build the icon atlas and write corresponding LSX/LSF files."""
     atlas, icon_nodes = atlas_builder.build(
-        INPUT_PATH,
-        OUTPUT_PATH,
+        Path(INPUT_PATH),
+        Path(OUTPUT_PATH),
         ATLAS_NAME,
         MOD_FOLDER,
         RESOURCE_UUID,
