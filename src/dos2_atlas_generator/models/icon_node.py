@@ -1,7 +1,7 @@
 from dataclasses import dataclass
 from typing import Self
 
-from models.atlas_detail import AtlasDetail
+from models.atlas import Atlas
 
 
 @dataclass(frozen=True)
@@ -21,10 +21,10 @@ class IconNode:
         cls,
         index: int,
         map_key: str,
-        atlas: AtlasDetail,
+        atlas: Atlas,
     ) -> Self:
         """Create an IconNode from a linear atlas index."""
-        x, y = cls._compute_grid_pos(index, atlas.cols)
+        x, y = cls._compute_grid_pos(index, atlas.layout.cols)
 
         return cls(
             map_key=map_key,
@@ -41,9 +41,9 @@ class IconNode:
         return index % cols, index // cols
 
     @staticmethod
-    def _compute_start(pos: int, atlas: AtlasDetail) -> float:
-        return pos * atlas.cell + atlas.half_texel
+    def _compute_start(pos: int, atlas: Atlas) -> float:
+        return pos * atlas.cell.size + atlas.cell.half_texel
 
     @staticmethod
-    def _compute_end(pos: int, atlas: AtlasDetail) -> float:
-        return (pos + 1) * atlas.cell - atlas.half_texel
+    def _compute_end(pos: int, atlas: Atlas) -> float:
+        return (pos + 1) * atlas.cell.size - atlas.cell.half_texel

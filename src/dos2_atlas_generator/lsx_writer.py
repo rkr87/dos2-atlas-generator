@@ -2,7 +2,7 @@ from dataclasses import asdict
 from pathlib import Path
 from typing import Any
 
-from models.atlas_detail import AtlasDetail
+from models.atlas import Atlas
 from models.icon_node import IconNode
 from utils import lsf_converter
 
@@ -45,15 +45,15 @@ def _write_template(
         lsf_converter.lsx(output_path)
 
 
-def write(atlas: AtlasDetail, icon_nodes: list[IconNode]) -> None:
+def write(atlas: Atlas, icon_nodes: list[IconNode]) -> None:
     """Write LSX/LSF files for a given atlas."""
     vals = {
         "ICON_NODES": _generate_nodes(icon_nodes),
-        "ICON_SIZE": atlas.icon_size,
-        "ATLAS_SIZE": atlas.size,
+        "ICON_SIZE": atlas.cell.icon_size,
+        "ATLAS_SIZE": atlas.layout.size,
         "ATLAS_NAME": atlas.name,
         "RESOURCE_UUID": atlas.resource_uuid,
         "MOD_FOLDER": atlas.mod_folder,
     }
-    _write_template(_ATLAS, vals, atlas.atlas_path)
-    _write_template(_RESOURCE, vals, atlas.resource_path, create_lsf=True)
+    _write_template(_ATLAS, vals, atlas.path.atlas)
+    _write_template(_RESOURCE, vals, atlas.path.resource, create_lsf=True)
