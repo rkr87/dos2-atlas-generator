@@ -5,10 +5,11 @@ from typing import Any
 from converter import lsf
 from models.atlas import Atlas
 from models.icon_node import IconNode
+from models.resource_details import ResourceDetails
 
 _TEMPLATES = Path("./.templates")
-_ATLAS = _TEMPLATES / "atlas.lsx"
-_NODE = _TEMPLATES / "node.lsx"
+_UVMAP = _TEMPLATES / "uvmap.lsx"
+_ICON_NODE = _TEMPLATES / "icon_node.lsx"
 _RESOURCE = _TEMPLATES / "resource.lsx"
 
 
@@ -24,7 +25,7 @@ def _render(template: str, template_vals: dict[str, Any]) -> str:
 
 
 def _generate_nodes(icon_nodes: list[IconNode]) -> str:
-    template = _load_template(_NODE)
+    template = _load_template(_ICON_NODE)
     return "\n".join(
         _render(template, asdict(node)) for node in reversed(icon_nodes)
     )
@@ -45,15 +46,19 @@ def _write_template(
         lsf.from_lsx(output_path)
 
 
-def write(atlas: Atlas, icon_nodes: list[IconNode]) -> None:
+def write(
+    atlas: Atlas, icon_nodes: list[IconNode], resource_details: ResourceDetails
+) -> None:
     """Write LSX/LSF files for a given atlas."""
     vals = {
         "ICON_NODES": _generate_nodes(icon_nodes),
         "ICON_SIZE": atlas.layout.icon_size,
         "ATLAS_SIZE": atlas.layout.size,
-        "ATLAS_NAME": atlas.name,
-        "RESOURCE_UUID": atlas.resource_uuid,
-        "MOD_FOLDER": atlas.mod_folder,
+        "ATLAS_NAME": resource_details.atlas_name,
+        "RESOURCE_UUID": resource_details.resource_uuid,
+        "MOD_FOLDER": resource_details.mod_folder,
     }
-    _write_template(_ATLAS, vals, atlas.path.atlas)
-    _write_template(_RESOURCE, vals, atlas.path.resource, create_lsf=True)
+    _write_template(_UVMAP, vals, resource_details.uvmap_path)
+    _write_template(
+        _RESOURCE, vals, resource_details.resource_path, create_lsf=True
+    )

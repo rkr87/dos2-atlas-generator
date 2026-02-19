@@ -1,10 +1,7 @@
 import math
 from dataclasses import dataclass
-from pathlib import Path
 from typing import Self
-from uuid import uuid4
 
-_ICON_SIZE = 64
 _MAX_ATLAS_SIZE = 4096
 
 
@@ -19,7 +16,7 @@ class _AtlasLayout:
     @classmethod
     def new(cls, file_count: int, icon_size: int) -> Self:
         """Create an atlas layout sized to fit the given number of icons."""
-        atlas_size = cls._compute_atlas_size(file_count)
+        atlas_size = cls._compute_atlas_size(file_count, icon_size)
         return cls(
             size=atlas_size,
             cols=cls._compute_cols(atlas_size, icon_size),
@@ -31,9 +28,9 @@ class _AtlasLayout:
         return 1 << (value - 1).bit_length()
 
     @staticmethod
-    def _compute_atlas_size(file_count: int) -> int:
+    def _compute_atlas_size(file_count: int, icon_size: int) -> int:
         icons_per_row = math.ceil(math.sqrt(file_count))
-        required_pixels = icons_per_row * _ICON_SIZE
+        required_pixels = icons_per_row * icon_size
 
         atlas_size = _AtlasLayout._next_power_of_two(required_pixels)
         if atlas_size > _MAX_ATLAS_SIZE:
@@ -72,84 +69,21 @@ class _AtlasUVCell:
 
 
 @dataclass(frozen=True)
-class _AtlasPath:
-    """Encapsulates all filesystem paths required for an atlas."""
-
-    atlas: Path
-    resource: Path
-    image: Path
-
-    @classmethod
-    def new(
-        cls,
-        mod_path: Path,
-        atlas_name: str,
-        resource_uuid: str,
-    ) -> Self:
-        """Create directory paths for atlas, resource, and image files."""
-        return cls(
-            atlas=cls._get_atlas_path(mod_path, atlas_name),
-            resource=cls._get_resource_path(
-                mod_path, atlas_name, resource_uuid
-            ),
-            image=cls._get_image_path(mod_path, atlas_name),
-        )
-
-    @staticmethod
-    def _get_atlas_path(mod_path: Path, atlas_name: str) -> Path:
-        path = mod_path / "GUI" / f"{atlas_name}.lsx"
-        path.parent.mkdir(parents=True, exist_ok=True)
-        return path
-
-    @staticmethod
-    def _get_resource_path(
-        mod_path: Path, atlas_name: str, resource_uuid: str
-    ) -> Path:
-        path = (
-            mod_path
-            / "Content"
-            / f"[PAK]_{atlas_name}"
-            / f"{resource_uuid}.lsx"
-        )
-        path.parent.mkdir(parents=True, exist_ok=True)
-        return path
-
-    @staticmethod
-    def _get_image_path(mod_path: Path, atlas_name: str) -> Path:
-        path = mod_path / "Assets" / "Textures" / "Icons" / f"{atlas_name}.png"
-        path.parent.mkdir(parents=True, exist_ok=True)
-        return path
-
-
-@dataclass(frozen=True)
 class Atlas:
     """Represents a fully configured texture atlas."""
 
-    name: str
-    mod_folder: str
-    resource_uuid: str
     layout: _AtlasLayout
-    path: _AtlasPath
     uv_cell: _AtlasUVCell
 
     @classmethod
     def from_icon_count(
         cls,
         file_count: int,
-        atlas_name: str,
-        out_path: Path,
-        mod_folder: str,
-        resource_uuid: str | None,
+        icon_size: int,
     ) -> Self:
         """Construct a complete Atlas instance from a given icon count."""
-        layout = _AtlasLayout.new(file_count, _ICON_SIZE)
-        mod_path = out_path / mod_folder
-        resource_uuid = resource_uuid or str(uuid4())
+        layout = _AtlasLayout.new(file_count, icon_size)
         return cls(
-            name=atlas_name,
-            resource_uuid=resource_uuid,
-            mod_folder=mod_folder,
             layout=layout,
-            path=_AtlasPath.new(mod_path, atlas_name, resource_uuid),
             uv_cell=_AtlasUVCell.new(layout),
         )
