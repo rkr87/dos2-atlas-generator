@@ -18,7 +18,4 @@ def from_lsx(path: Path) -> None:
         "-a",
         "convert-resource",
     ]
-    subprocess.run(  # noqa: S603
-        command,
-        check=True,
-    )
+    subprocess.run(command, check=True)  # noqa: S603
