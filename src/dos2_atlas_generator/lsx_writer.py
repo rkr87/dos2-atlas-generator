@@ -2,9 +2,9 @@ from dataclasses import asdict
 from pathlib import Path
 from typing import Any
 
+from converter import lsf
 from models.atlas import Atlas
 from models.icon_node import IconNode
-from utils import lsf_converter
 
 _TEMPLATES = Path("./.templates")
 _ATLAS = _TEMPLATES / "atlas.lsx"
@@ -42,7 +42,7 @@ def _write_template(
     with output_path.open("w", encoding="utf-8") as f:
         f.write(rendered)
     if create_lsf:
-        lsf_converter.lsx(output_path)
+        lsf.from_lsx(output_path)
 
 
 def write(atlas: Atlas, icon_nodes: list[IconNode]) -> None:

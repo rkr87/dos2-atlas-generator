@@ -4,7 +4,7 @@ from pathlib import Path
 _DIVINE_PATH = Path("./.bin/divine.exe")
 
 
-def lsx(path: Path) -> None:
+def from_lsx(path: Path) -> None:
     """Convert an LSX file to LSF using divine.exe."""
     resolved = path.resolve()
     command = [

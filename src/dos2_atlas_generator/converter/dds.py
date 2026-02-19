@@ -4,7 +4,7 @@ from pathlib import Path
 _TEXCONV_PATH = Path("./.bin/texconv.exe")
 
 
-def png(path: Path) -> None:
+def from_png(path: Path) -> None:
     """Convert a PNG file to DDS using texconv.exe."""
     args = [
         _TEXCONV_PATH.as_posix(),

@@ -1,9 +1,9 @@
 from pathlib import Path
 
+from converter import dds
 from models.atlas import Atlas
 from models.icon_node import IconNode
 from PIL import Image
-from utils import dds_converter
 
 _ICON_FILE_TYPE = ".png"
 
@@ -36,7 +36,7 @@ def _generate_atlas_image(
 
 def _write_image_files(atlas: Atlas, atlas_image: Image.Image) -> None:
     atlas_image.save(atlas.path.image, compress_level=0, icc_profile=None)
-    dds_converter.png(atlas.path.image)
+    dds.from_png(atlas.path.image)
 
 
 def build(
