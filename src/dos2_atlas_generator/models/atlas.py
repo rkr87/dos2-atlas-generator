@@ -14,13 +14,16 @@ class _AtlasLayout:
 
     cols: int
     size: int
+    icon_size: int
 
     @classmethod
     def new(cls, file_count: int, icon_size: int) -> Self:
         """Create an atlas layout sized to fit the given number of icons."""
         atlas_size = cls._compute_atlas_size(file_count)
         return cls(
-            size=atlas_size, cols=cls._compute_cols(atlas_size, icon_size)
+            size=atlas_size,
+            cols=cls._compute_cols(atlas_size, icon_size),
+            icon_size=icon_size,
         )
 
     @staticmethod
@@ -50,20 +53,18 @@ class _AtlasCell:
 
     half_texel: float
     size: float
-    icon_size: int
 
     @classmethod
-    def new(cls, atlas: _AtlasLayout, icon_size: int) -> Self:
+    def new(cls, layout: _AtlasLayout) -> Self:
         """Create atlas cell metadata derived from the atlas layout."""
         return cls(
-            size=cls._compute_cell(atlas.size, icon_size),
-            half_texel=cls._compute_half_texel(atlas.size),
-            icon_size=icon_size,
+            size=cls._compute_cell(layout),
+            half_texel=cls._compute_half_texel(layout.size),
         )
 
     @staticmethod
-    def _compute_cell(atlas_size: int, icon_size: int) -> float:
-        return icon_size / atlas_size
+    def _compute_cell(layout: _AtlasLayout) -> float:
+        return layout.icon_size / layout.size
 
     @staticmethod
     def _compute_half_texel(atlas_size: int) -> float:
@@ -150,5 +151,5 @@ class Atlas:
             mod_folder=mod_folder,
             layout=layout,
             path=_AtlasPath.new(mod_path, atlas_name, resource_uuid),
-            cell=_AtlasCell.new(layout, _ICON_SIZE),
+            cell=_AtlasCell.new(layout),
         )

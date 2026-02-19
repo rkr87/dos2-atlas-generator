@@ -49,7 +49,7 @@ def write(atlas: Atlas, icon_nodes: list[IconNode]) -> None:
     """Write LSX/LSF files for a given atlas."""
     vals = {
         "ICON_NODES": _generate_nodes(icon_nodes),
-        "ICON_SIZE": atlas.cell.icon_size,
+        "ICON_SIZE": atlas.layout.icon_size,
         "ATLAS_SIZE": atlas.layout.size,
         "ATLAS_NAME": atlas.name,
         "RESOURCE_UUID": atlas.resource_uuid,

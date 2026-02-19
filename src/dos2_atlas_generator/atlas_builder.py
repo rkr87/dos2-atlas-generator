@@ -27,7 +27,7 @@ def _generate_atlas_image(
         node = IconNode.from_index(i, icon_path.stem, atlas)
         atlas_image.paste(
             icon_image,
-            (node.x * atlas.cell.icon_size, node.y * atlas.cell.icon_size),
+            (node.x * atlas.layout.icon_size, node.y * atlas.layout.icon_size),
         )
         icon_nodes.append(node)
 
