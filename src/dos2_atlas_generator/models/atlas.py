@@ -48,7 +48,7 @@ class _AtlasLayout:
 
 
 @dataclass(frozen=True)
-class _AtlasCell:
+class _AtlasUVCell:
     """Stores UV cell size and half-texel offset metadata for an atlas."""
 
     half_texel: float
@@ -130,7 +130,7 @@ class Atlas:
     resource_uuid: str
     layout: _AtlasLayout
     path: _AtlasPath
-    cell: _AtlasCell
+    uv_cell: _AtlasUVCell
 
     @classmethod
     def from_icon_count(
@@ -151,5 +151,5 @@ class Atlas:
             mod_folder=mod_folder,
             layout=layout,
             path=_AtlasPath.new(mod_path, atlas_name, resource_uuid),
-            cell=_AtlasCell.new(layout),
+            uv_cell=_AtlasUVCell.new(layout),
         )

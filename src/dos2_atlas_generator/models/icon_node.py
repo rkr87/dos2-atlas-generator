@@ -42,8 +42,8 @@ class IconNode:
 
     @staticmethod
     def _compute_start(pos: int, atlas: Atlas) -> float:
-        return pos * atlas.cell.size + atlas.cell.half_texel
+        return pos * atlas.uv_cell.size + atlas.uv_cell.half_texel
 
     @staticmethod
     def _compute_end(pos: int, atlas: Atlas) -> float:
-        return (pos + 1) * atlas.cell.size - atlas.cell.half_texel
+        return (pos + 1) * atlas.uv_cell.size - atlas.uv_cell.half_texel
