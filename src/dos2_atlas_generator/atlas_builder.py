@@ -15,6 +15,18 @@ def _get_icons(input_path: Path) -> list[Path]:
     ]
 
 
+def _resize_icon(image: Image.Image, icon_size: int) -> Image.Image:
+    """Resize image so its longest edge equals icon_size."""
+    width, height = image.size
+    if (longest_edge := max(width, height)) == icon_size:
+        return image
+
+    scale = icon_size / longest_edge
+    new_width = round(width * scale)
+    new_height = round(height * scale)
+    return image.resize((new_width, new_height), Image.Resampling.LANCZOS)  # pyright: ignore[reportUnknownMemberType]
+
+
 def _generate_atlas_image(
     icon_paths: list[Path], atlas: Atlas
 ) -> tuple[Image.Image, list[IconNode]]:
@@ -23,6 +35,7 @@ def _generate_atlas_image(
 
     for i, icon_path in enumerate(icon_paths):
         icon_image = Image.open(icon_path).convert("RGBA")
+        icon_image = _resize_icon(icon_image, atlas.layout.icon_size)
         node = IconNode.from_index(i, icon_path.stem, atlas)
         atlas_image.paste(
             icon_image,

@@ -5,10 +5,10 @@ import image_writer
 import lsx_writer
 from models.resource_details import ResourceDetails
 
-# provide input directory (location of 64x64 icon.png files)
+# provide input directory (location icon.png files)
 INPUT = "./.icons"
 # provide icon size
-#   all provided icons should match this value for both width and height
+#   all provided icons will be resized to this w/h (maintaining aspect ratio)
 ICON_SIZE = 64
 # provide output directory
 OUTPUT = "./.out"
